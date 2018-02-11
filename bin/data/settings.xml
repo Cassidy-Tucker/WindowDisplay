@@ -1,0 +1,13 @@
+<group>
+	<Min_Depth>135</Min_Depth>
+	<Max_Depth>169</Max_Depth>
+	<Min_Area>41</Min_Area>
+	<Max_Area>1000</Max_Area>
+	<Threshold>128</Threshold>
+	<Smooth>6</Smooth>
+	<Fill_Holes>1</Fill_Holes>
+	<Draw_Depth>0</Draw_Depth>
+	<Contour>0</Contour>
+	<Polylines>1</Polylines>
+<group/>
+</group>
