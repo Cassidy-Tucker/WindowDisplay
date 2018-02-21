@@ -1,0 +1,20 @@
+#N canvas 281 414 808 320 10;
+#X floatatom 78 98 5 -1 1 0 - - -;
+#X obj -24 271 table tabwritetable;
+#X obj 78 199 tabwrite tabwritetable;
+#X floatatom 282 132 5 0 0 0 - - -;
+#X text 236 108 width of graph (100);
+#X text 64 74 value input (0 - 1);
+#X obj 207 159 counter 0 100;
+#X obj 426 103 scope~ 235 138 256 3 64 -1 1 0 0 0 0 102 255 51 135
+135 135 0;
+#X obj 497 56 adc~;
+#X floatatom 578 50 5 0 0 0 - - -;
+#X msg 579 76 bufsize \$1;
+#X connect 0 0 2 0;
+#X connect 0 0 6 0;
+#X connect 3 0 6 4;
+#X connect 6 0 2 1;
+#X connect 8 0 7 0;
+#X connect 9 0 10 0;
+#X connect 10 0 7 0;
