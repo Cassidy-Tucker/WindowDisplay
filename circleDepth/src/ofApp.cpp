@@ -5,7 +5,7 @@ void ofApp::setup(){
     depth_width = 512;
     depth_height = 424;
     
-    kinect.open();
+    kinect.init();
     
     depth_image.allocate(depth_width, depth_height, OF_IMAGE_GRAYSCALE);
     
