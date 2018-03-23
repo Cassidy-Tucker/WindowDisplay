@@ -54,7 +54,9 @@ class ofApp : public ofBaseApp{
 
     ofEasyCam easycam;
     ofxSyphonServer syphon;
-    ofFbo outputFbo, depthFbo;
+    ofFbo outputFbo, depthFbo, rainbowFbo;
     
     ofParameter<ofColor> fade_color;
+    
+    ofShader rainbowShader;
 };
