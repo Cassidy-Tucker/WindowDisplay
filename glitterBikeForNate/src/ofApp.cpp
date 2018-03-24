@@ -4,13 +4,15 @@ using namespace cv;
 using namespace ofxCv;
 //--------------------------------------------------------------
 void ofApp::setup(){
+    rainbowShader.load("rainbow");
     ofSetVerticalSync(true);
     kinect.init();
+    kinect.open();
     
     gui.setup();
-    gui.add(min_depth.set("Min Depth", 0, 0, 255));
+    gui.add(min_depth.set("Min Depth", 20, 0, 255));
     gui.add(max_depth.set("Max Depth", 255, 0, 255));
-    gui.add(min_radius.set("Min Radius", 1, 1, 100));
+    gui.add(min_radius.set("Min Radius", 10, 10, 100));
     gui.add(max_radius.set("Max Radius", 1000, 1, 1000));
     gui.add(threshold.set("Threshold", 125, 0, 255));
     gui.add(smooth.set("Smooth", 2.5, 0, 5));
@@ -26,7 +28,8 @@ void ofApp::setup(){
     
     outputFbo.allocate(ofGetWidth(), ofGetHeight());
     depthFbo.allocate(ofGetWidth(), ofGetHeight());
-    
+    rainbowFbo.allocate(ofGetWidth(), ofGetHeight());
+
     outputFbo.begin();
     ofClear(0, 0, 0, 0);
     outputFbo.end();
@@ -86,11 +89,16 @@ void ofApp::update(){
         
         // create temp ofxTriangleMesh and triangulate it
         ofxTriangleMesh tri_mesh;
-        tri_mesh.triangulate(polylines[i], 28, -1);
         
-        // add the tri_mesh to the meshes vector
-        tri_meshes.push_back(tri_mesh);
-        meshes.push_back(tri_mesh.triangulatedMesh);
+        if(polylines[i].size() > 3){
+            // add the tri_mesh to the meshes vector
+            tri_mesh.triangulate(polylines[i], 28, -1);
+            tri_meshes.push_back(tri_mesh);
+            meshes.push_back(tri_mesh.triangulatedMesh);
+        }
+
+
+
         
         // make the mesh 3d-ish
         if(make_3d) {
@@ -109,6 +117,7 @@ void ofApp::update(){
     }
     
     outputFbo.begin();
+  
     
         //clear the fbo trail
         if(ofGetKeyPressed('c')){
@@ -153,15 +162,18 @@ void ofApp::update(){
         if(draw_vertices) {
             for(int i = 0; i < polylines.size(); i++) {
                 for(int j = 0; j < polylines[i].size(); j++) {
-                    ofDrawCircle(polylines[i][j], 5);
+                    ofDrawCircle(polylines[i][j], 8);
                 }
             }
         }
 //        easycam.end();
     
-        gui.draw();
     outputFbo.end();
-    
+    rainbowFbo.begin();
+    rainbowShader.begin();
+    outputFbo.draw(0, 0);
+     rainbowShader.end();
+    rainbowFbo.end();
     depthFbo.begin();
         kinect.drawDepth(0,0,ofGetWidth(),ofGetHeight());
     depthFbo.end();
@@ -170,7 +182,11 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     ofSetBackgroundColor(0);
-    outputFbo.draw(0, 0);
+    rainbowFbo.draw(0,0);
+    for(int i = 0; i < tri_meshes.size(); i++) {
+        tri_meshes[i].draw();
+    }
+            gui.draw();
     syphon.publishTexture(&outputFbo.getTexture());
 }
 
