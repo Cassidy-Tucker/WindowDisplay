@@ -97,9 +97,6 @@ void ofApp::update(){
             meshes.push_back(tri_mesh.triangulatedMesh);
         }
 
-
-
-        
         // make the mesh 3d-ish
         if(make_3d) {
             // loop through all vertexes
@@ -117,8 +114,6 @@ void ofApp::update(){
     }
     
     outputFbo.begin();
-  
-    
         //clear the fbo trail
         if(ofGetKeyPressed('c')){
             ofClear(0,0,0,0);
