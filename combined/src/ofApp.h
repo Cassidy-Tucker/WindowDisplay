@@ -63,5 +63,8 @@ public:
     ofParameter<ofColor> fade_color;
     
     ofShader rainbowShader;
+    
+    int random_gate;
+    int driver;
 };
 

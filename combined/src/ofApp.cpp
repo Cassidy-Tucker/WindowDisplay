@@ -27,6 +27,8 @@ void ofApp::setup(){
 //    gui.add(make_3d.set("Make 3d", false));
     gui.add(fade_color.set("Fade", ofColor(0,0,0,5)));
     
+    
+    
     outputFbo.allocate(ofGetWidth(), ofGetHeight());
     depthFbo.allocate(ofGetWidth(), ofGetHeight());
     rainbowFbo.allocate(ofGetWidth(), ofGetHeight());
@@ -38,10 +40,25 @@ void ofApp::setup(){
     depthFbo.begin();
     ofClear(0, 0, 0, 0);
     depthFbo.end();
+    
+    random_gate = ofRandom(10000);
+    driver = 0;
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    
+    driver++;
+    
+    if(driver > random_gate){
+        draw_contours = (int)ofRandom(1);
+        draw_polylines = (int)ofRandom(1);
+        draw_tri_meshes = (int)ofRandom(1);
+        draw_vertices = (int)ofRandom(1);
+        
+        random_gate = ofRandom(10000);
+        driver = 0;
+    }
     
     kinect.update();
     
@@ -186,7 +203,7 @@ void ofApp::draw(){
     ofSetBackgroundColor(0);
     rainbowFbo.draw(0,0);
     gui.draw();
-    syphon.publishTexture(&outputFbo.getTexture());
+    syphon.publishTexture(&rainbowFbo.getTexture());
 }
 
 //--------------------------------------------------------------

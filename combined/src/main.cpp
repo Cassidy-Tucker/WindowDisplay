@@ -11,3 +11,8 @@ int main( ){
 	ofRunApp(new ofApp());
 
 }
+
+
+//1920X1080 for high res videos!
+//1280x720 for decent res videos!
+
